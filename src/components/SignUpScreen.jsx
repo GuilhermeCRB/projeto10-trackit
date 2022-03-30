@@ -1,17 +1,60 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import styledComponents from "styled-components";
+import axios from "axios";
 
-export default function SignUpScreen(){
-    return(
+export default function SignUpScreen() {
+
+    const [data, setData] = useState({
+        email: "", name: "", image: "", password: ""
+    });
+    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
+
+    function signUp(e) {
+        e.preventDefault();
+
+        const promise = axios.post(URL, data);
+        promise.then(saveToken); promise.catch(warnError);
+    }
+
+    function warnError(error) {
+        alert("Parece que algo de errado não está certo. Por favor, tente novamente mais tarde.");
+    }
+
+    function saveToken(response) {
+        console.log(response);
+    }
+
+    return (
         <Section>
             <img src="./../src/assets/imgs/logo.svg" alt="logo" />
             <h1>TrackIt</h1>
-            <form action="">
-                <input type="email" placeholder="email" />
-                <input type="password" placeholder="senha" />
-                <input type="text" placeholder="nome" />
-                <input type="url" placeholder="foto" />
-                <button>Cadastrar</button>
+            <form onSubmit={signUp} >
+                <input
+                    type="email"
+                    placeholder="email"
+                    onChange={(e) => {setData({...data, email: e.target.value})}}
+                    required
+                />
+                <input
+                    type="password"
+                    placeholder="senha"
+                    onChange={(e) => {setData({...data, password: e.target.value})}}
+                    required
+                />
+                <input
+                    type="text"
+                    placeholder="nome"
+                    onChange={(e) => {setData({...data, name: e.target.value})}}
+                    required
+                />
+                <input
+                    type="url"
+                    placeholder="foto"
+                    onChange={(e) => {setData({...data, image: e.target.value})}}
+                    required
+                />
+                <button type="submit" >Cadastrar</button>
             </form>
             <Link to={"/"} >Já tem uma conta? Faça login!</Link>
         </Section>

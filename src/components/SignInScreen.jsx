@@ -7,8 +7,8 @@ export default function SignInScreen(){
             <img src="./../src/assets/imgs/logo.svg" alt="logo" />
             <h1>TrackIt</h1>
             <form action="">
-                <input type="email" placeholder="email" />
-                <input type="password" placeholder="senha" />
+                <input type="email" placeholder="email" required />
+                <input type="password" placeholder="senha" required />
                 <button>Entrar</button>
             </form>
             <Link to={"/cadastro"} >Não tem uma conta? Cadastre-se!</Link>
