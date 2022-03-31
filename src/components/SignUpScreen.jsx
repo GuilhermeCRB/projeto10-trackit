@@ -2,19 +2,22 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styledComponents from "styled-components";
 import axios from "axios";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function SignUpScreen() {
 
+    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
     const [data, setData] = useState({
         email: "", name: "", image: "", password: ""
     });
-    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
+    const [disable, setDisable] = useState(false);
 
     function signUp(e) {
         e.preventDefault();
 
         const promise = axios.post(URL, data);
         promise.then(saveToken); promise.catch(warnError);
+        setDisable(true);
     }
 
     function warnError(error) {
@@ -22,7 +25,7 @@ export default function SignUpScreen() {
     }
 
     function saveToken(response) {
-        console.log(response);
+        console.log("foi");
     }
 
     return (
@@ -33,28 +36,34 @@ export default function SignUpScreen() {
                 <input
                     type="email"
                     placeholder="email"
-                    onChange={(e) => {setData({...data, email: e.target.value})}}
+                    onChange={(e) => { setData({ ...data, email: e.target.value }) }}
+                    disabled={disable}
                     required
                 />
                 <input
                     type="password"
                     placeholder="senha"
-                    onChange={(e) => {setData({...data, password: e.target.value})}}
+                    onChange={(e) => { setData({ ...data, password: e.target.value }) }}
+                    disabled={disable}
                     required
                 />
                 <input
                     type="text"
                     placeholder="nome"
-                    onChange={(e) => {setData({...data, name: e.target.value})}}
+                    onChange={(e) => { setData({ ...data, name: e.target.value }) }}
+                    disabled={disable}
                     required
                 />
                 <input
                     type="url"
                     placeholder="foto"
-                    onChange={(e) => {setData({...data, image: e.target.value})}}
+                    onChange={(e) => { setData({ ...data, image: e.target.value }) }}
+                    disabled={disable}
                     required
                 />
-                <button type="submit" >Cadastrar</button>
+                <button type="submit" >
+                    {disable === false ? "Cadastrar" : <ThreeDots color="white" width={60} />}
+                </button>
             </form>
             <Link to={"/"} >Já tem uma conta? Faça login!</Link>
         </Section>
@@ -95,6 +104,9 @@ const Section = styledComponents.section`
         }
 
         button{
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 21px;
             height: 45px;
             margin-bottom: 25px;
