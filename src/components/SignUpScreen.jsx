@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import styledComponents from "styled-components";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
+import axios from "axios";
+import styledComponents from "styled-components";
 
 export default function SignUpScreen() {
 
@@ -11,21 +11,19 @@ export default function SignUpScreen() {
         email: "", name: "", image: "", password: ""
     });
     const [disable, setDisable] = useState(false);
+    const Navigate = useNavigate();
 
     function signUp(e) {
         e.preventDefault();
 
         const promise = axios.post(URL, data);
-        promise.then(saveToken); promise.catch(warnError);
+        promise.then(() => Navigate("/")); promise.catch(warnError);
         setDisable(true);
     }
 
     function warnError(error) {
         alert("Parece que algo de errado não está certo. Por favor, tente novamente mais tarde.");
-    }
-
-    function saveToken(response) {
-        console.log("foi");
+        setDisable(false);
     }
 
     return (
@@ -34,6 +32,7 @@ export default function SignUpScreen() {
             <h1>TrackIt</h1>
             <form onSubmit={signUp} >
                 <input
+                    value={data.email}
                     type="email"
                     placeholder="email"
                     onChange={(e) => { setData({ ...data, email: e.target.value }) }}
@@ -41,6 +40,7 @@ export default function SignUpScreen() {
                     required
                 />
                 <input
+                    value={data.password}
                     type="password"
                     placeholder="senha"
                     onChange={(e) => { setData({ ...data, password: e.target.value }) }}
@@ -48,6 +48,7 @@ export default function SignUpScreen() {
                     required
                 />
                 <input
+                    value={data.name}
                     type="text"
                     placeholder="nome"
                     onChange={(e) => { setData({ ...data, name: e.target.value }) }}
@@ -55,6 +56,7 @@ export default function SignUpScreen() {
                     required
                 />
                 <input
+                    value={data.image}
                     type="url"
                     placeholder="foto"
                     onChange={(e) => { setData({ ...data, image: e.target.value }) }}

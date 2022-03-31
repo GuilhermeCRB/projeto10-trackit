@@ -1,15 +1,56 @@
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
+import UserContext from "./../contexts/UserContext";
 import styledComponents from "styled-components";
+import axios from "axios";
 
-export default function SignInScreen(){
-    return(
+export default function SignInScreen() {
+
+    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login";
+    const [data, setData] = useState({ email: "", password: "" });
+    const [disable, setDisable] = useState(false);
+
+    function signIn(e) {
+        e.preventDefault();
+        const promise = axios.post(URL, data);
+        promise.then(saveUserInformation); promise.catch(warnError);
+        setDisable(true);
+    }
+
+    function warnError(error) {
+        alert("Parece que algo de errado não está certo. Por favor, tente novamente mais tarde.");
+        setDisable(false);
+    }
+
+    function saveUserInformation(response) {
+        console.log(response);
+    }
+
+    return (
         <Section>
             <img src="./../src/assets/imgs/logo.svg" alt="logo" />
             <h1>TrackIt</h1>
-            <form action="">
-                <input type="email" placeholder="email" required />
-                <input type="password" placeholder="senha" required />
-                <button>Entrar</button>
+            <form onSubmit={signIn}>
+                <input
+                    value={data.email}
+                    type="email"
+                    placeholder="email"
+                    onChange={(e) => { setData({ ...data, email: e.target.value }) }}
+                    disabled={disable}
+                    required
+                />
+                <input
+                    value={data.password}
+                    type="password"
+                    placeholder="senha"
+                    onChange={(e) => { setData({ ...data, password: e.target.value }) }}
+                    disabled={disable}
+                    required
+                />
+                <button type="submit">
+                    {disable === false ? "Entrar" : <ThreeDots color="white" width={60} />}
+                </button>
             </form>
             <Link to={"/cadastro"} >Não tem uma conta? Cadastre-se!</Link>
         </Section>
@@ -50,6 +91,9 @@ const Section = styledComponents.section`
         }
 
         button{
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 21px;
             height: 45px;
             margin-bottom: 25px;
