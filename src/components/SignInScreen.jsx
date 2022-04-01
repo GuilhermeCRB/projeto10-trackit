@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 import UserContext from "./../contexts/UserContext";
 import styledComponents from "styled-components";
@@ -10,6 +10,8 @@ export default function SignInScreen() {
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login";
     const [data, setData] = useState({ email: "", password: "" });
     const [disable, setDisable] = useState(false);
+    const {setUser} = useContext(UserContext);
+    const navigate = useNavigate();
 
     function signIn(e) {
         e.preventDefault();
@@ -24,7 +26,8 @@ export default function SignInScreen() {
     }
 
     function saveUserInformation(response) {
-        console.log(response);
+        setUser(response.data);
+        navigate("/habitos");
     }
 
     return (
