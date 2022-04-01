@@ -15,7 +15,7 @@ export default function HabitScreen() {
             <Header />
             <MainStyle>
                 <AddHabitHeader setAddHabit={setAddHabit} />
-                {addHabit && <AddHabitForm />}
+                {addHabit && <AddHabitForm setAddHabit={setAddHabit} />}
                 <ul><Habit /></ul>
             </MainStyle>
             <Menu />
@@ -35,14 +35,17 @@ function AddHabitHeader({setAddHabit}) {
 }
 
 const MainStyle = styledComponents.main`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: 70px;
-    padding: 0 18px;
     background-color: var(--background-screen);
 
     .add-habits{
         display: flex;
         align-items:center;
         justify-content: space-between;
+        width: 90vw;
         padding: 25px 0;
     }
 
@@ -69,8 +72,9 @@ const MainStyle = styledComponents.main`
         color: var(--add-icon);
     }
 
-    p{
+    ul>p{
         font-size: 18px;
+        width: 90vw;
         color: var(--text);
     }
 `
