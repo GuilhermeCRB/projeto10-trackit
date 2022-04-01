@@ -1,5 +1,9 @@
+import Header from "./Header";
+
 export default function HabitScreen(){
+    
+
     return(
-        "Habit"
+        <Header />
     );
 }
