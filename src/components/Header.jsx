@@ -16,8 +16,11 @@ export default function Header() {
 }
 
 const HeaderStyle = styledComponents.header`
+    position: fixed;
+    top:0;
+    z-index: 1;
     display: flex;
-    align-itens:center;
+    align-items:center;
     justify-content: space-between;
     width: 100vw;
     height: 70px;
@@ -27,7 +30,6 @@ const HeaderStyle = styledComponents.header`
     h1{
         font-family: 'Playball';
         font-size: 40px;
-        margin-bottom: 33px;
         color: var(--logo-header);
     }
 
@@ -38,5 +40,6 @@ const HeaderStyle = styledComponents.header`
 
     img{
         width: 100%;
+        border-radius: 25px;
     }
 `
