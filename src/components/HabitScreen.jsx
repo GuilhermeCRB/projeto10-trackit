@@ -1,31 +1,43 @@
+import { useState } from "react";
 import styledComponents from "styled-components";
 
 import Header from "./Header";
+import AddHabitForm from "./AddHabitForm";
+import Habit from "./Habit";
 import Menu from "./Menu";
 
 export default function HabitScreen() {
+
+    const [addHabit, setAddHabit] = useState(false);
 
     return (
         <section>
             <Header />
             <MainStyle>
-                <div className="add-habits">
-                    <h2>Meus hábitos</h2>
-                    <div className="add-habits-icon">
-                        <ion-icon name="add"></ion-icon>
-                    </div>
-                </div>
-                <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
+                <AddHabitHeader setAddHabit={setAddHabit} />
+                {addHabit && <AddHabitForm />}
+                <ul><Habit /></ul>
             </MainStyle>
             <Menu />
         </section>
     );
 }
 
+function AddHabitHeader({setAddHabit}) {
+    return (
+        <div className="add-habits">
+            <h2>Meus hábitos</h2>
+            <div className="add-habits-icon" onClick={() => setAddHabit(true)} >
+                <p>+</p>
+            </div>
+        </div>
+    );
+}
+
 const MainStyle = styledComponents.main`
-    background-color: var(--background-screen);
     margin-top: 70px;
     padding: 0 18px;
+    background-color: var(--background-screen);
 
     .add-habits{
         display: flex;
@@ -43,12 +55,18 @@ const MainStyle = styledComponents.main`
         display: flex;
         align-items:center;
         justify-content: center;
-        font-size: 24px;
         width: 40px;
         height: 35px;
         border-radius: 5px;
-        color: var(--add-icon);
         background-color: var(--background-icon);
+    }
+
+    .add-habits-icon p{
+        align-items:center;
+        justify-content: center;
+        font-size: 28px;
+        margin-bottom: 2px;
+        color: var(--add-icon);
     }
 
     p{
