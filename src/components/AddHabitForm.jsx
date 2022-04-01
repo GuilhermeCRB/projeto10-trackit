@@ -1,27 +1,47 @@
+import { useState } from "react";
 import styledComponents from "styled-components";
 
-export default function AddHabitForm({setAddHabit}) {
+import Day from "./Day";
+
+export default function AddHabitForm({ setAddHabit, days }) {
+
+    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
+    const [habit, setHabit] = useState({ name: "", days: [] });
+
+    function saveHabit() {
+        console.log(habit);
+    }
+
     return (
-        <DivStyle>
-            <input type="text" />
-            <div className="week-days">
-                <div>D</div>
-                <div>S</div>
-                <div>T</div>
-                <div>Q</div>
-                <div>Q</div>
-                <div>S</div>
-                <div>S</div>
-            </div>
+        <FormStyle onSubmit={saveHabit} >
+            <input
+                value={habit.name}
+                type="text"
+                onChange={(e) => setHabit({ ...habit, name: e.target.value })}
+                required
+            />
+            <WeekDays days={days} />
             <div className="add-form-buttons">
                 <button onClick={() => setAddHabit(false)}>Cancelar</button>
-                <button>Salvar</button>
+                <button type="submit" >Salvar</button>
             </div>
-        </DivStyle>
+        </FormStyle>
     );
 }
 
-const DivStyle = styledComponents.div`
+function WeekDays({days}) {
+    return (
+        <div className="week-days">
+            {[...days.keys()].map((day) => {
+                return (
+                    <Day key={day} days={days} day={day} />
+                )
+            })}
+        </div>
+    );
+}
+
+const FormStyle = styledComponents.form`
     position: relative;
     display: flex;
     flex-direction: column;
@@ -32,6 +52,7 @@ const DivStyle = styledComponents.div`
 
     .week-days{
         display: flex;
+        margin-top: 10px;
     }
 
     .add-form-buttons{

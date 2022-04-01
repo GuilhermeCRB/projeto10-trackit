@@ -9,13 +9,16 @@ import Menu from "./Menu";
 export default function HabitScreen() {
 
     const [addHabit, setAddHabit] = useState(false);
+    const days = new Map();
+    days.set(1, "S"); days.set(2, "T"); days.set(3, "Q"); days.set(4, "Q"); 
+    days.set(5, "S"); days.set(6, "S"); days.set(7, "D");
 
     return (
         <section>
             <Header />
             <MainStyle>
                 <AddHabitHeader setAddHabit={setAddHabit} />
-                {addHabit && <AddHabitForm setAddHabit={setAddHabit} />}
+                {addHabit && <AddHabitForm setAddHabit={setAddHabit} days={days} />}
                 <ul><Habit /></ul>
             </MainStyle>
             <Menu />
@@ -38,6 +41,7 @@ const MainStyle = styledComponents.main`
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100%;
     margin-top: 70px;
     background-color: var(--background-screen);
 
