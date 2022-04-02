@@ -7,12 +7,13 @@ import Day from "./Day";
 
 export default function AddHabitForm({ setAddHabit, days }) {
 
-    const {user} = useContext(UserContext);
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
-    const [habit, setHabit] = useState({ name: "", days: [] });
+    const {user} = useContext(UserContext);
     const config = {
         headers: {"Authorization": `Bearer ${user.token}`}
     }
+    
+    const [habit, setHabit] = useState({ name: "", days: [] });
     const [disable, setDisable] = useState(false);
 
     function saveHabit(e) {

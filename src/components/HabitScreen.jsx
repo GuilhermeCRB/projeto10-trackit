@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import UserContext from "../contexts/UserContext";
+import axios from "axios";
 import styledComponents from "styled-components";
 
 import Header from "./Header";
@@ -8,10 +10,29 @@ import Menu from "./Menu";
 
 export default function HabitScreen() {
 
+    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
+    const { user } = useContext(UserContext);
+    const config = {
+        headers: {"Authorization": `Bearer ${user.token}`}
+    }
+    const days = new Map([
+        [1, "S"], [2, "T"], [3, "Q"], [4, "Q"], [5, "S"], [6, "S"], [7, "D"]
+    ]);
+    
     const [addHabit, setAddHabit] = useState(false);
-    const days = new Map();
-    days.set(1, "S"); days.set(2, "T"); days.set(3, "Q"); days.set(4, "Q"); 
-    days.set(5, "S"); days.set(6, "S"); days.set(7, "D");
+
+    useEffect(() => {
+        const promise = axios.get(URL, config);
+        promise.then(sucesso); promise.catch(warnError);
+    }, []);
+
+    function warnError(error) {
+        alert("Parece que algo de errado não está certo. Por favor, tente novamente mais tarde.");
+    }
+
+    function sucesso(response) {
+        console.log(response);
+    }
 
     return (
         <section>
@@ -19,14 +40,16 @@ export default function HabitScreen() {
             <MainStyle>
                 <AddHabitHeader setAddHabit={setAddHabit} />
                 {addHabit && <AddHabitForm setAddHabit={setAddHabit} days={days} />}
-                <ul><Habit /></ul>
+                <ul>
+                    <Habit />
+                </ul>
             </MainStyle>
             <Menu />
         </section>
     );
 }
 
-function AddHabitHeader({setAddHabit}) {
+function AddHabitHeader({ setAddHabit }) {
     return (
         <div className="add-habits">
             <h2>Meus hábitos</h2>
