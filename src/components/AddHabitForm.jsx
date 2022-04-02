@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import styledComponents from "styled-components";
 
 import Day from "./Day";
@@ -7,9 +8,22 @@ export default function AddHabitForm({ setAddHabit, days }) {
 
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
     const [habit, setHabit] = useState({ name: "", days: [] });
+    const [disable, setDisable] = useState(false);
 
-    function saveHabit() {
-        console.log(habit);
+    function saveHabit(e) {
+        e.preventDefault();
+        const promise = axios.post(URL, habit);
+        promise.then(sucesso); promise.catch(warnError);
+        setDisable(true);
+    }
+
+    function warnError(error) {
+        alert("Parece que algo de errado não está certo. Por favor, tente novamente mais tarde.");
+        setDisable(false);
+    }
+
+    function sucesso(response) {
+        console.log(response)
     }
 
     return (
@@ -18,23 +32,30 @@ export default function AddHabitForm({ setAddHabit, days }) {
                 value={habit.name}
                 type="text"
                 onChange={(e) => setHabit({ ...habit, name: e.target.value })}
+                disabled={disable}
                 required
             />
-            <WeekDays days={days} />
+            <WeekDays days={days} habit={habit} setHabit={setHabit} />
             <div className="add-form-buttons">
-                <button onClick={() => setAddHabit(false)}>Cancelar</button>
-                <button type="submit" >Salvar</button>
+                <button disabled={disable} onClick={() => setAddHabit(false)}>Cancelar</button>
+                <button disabled={disable} type="submit" >Salvar</button>
             </div>
         </FormStyle>
     );
 }
 
-function WeekDays({days}) {
+function WeekDays({ days, habit, setHabit }) {
     return (
         <div className="week-days">
             {[...days.keys()].map((day) => {
                 return (
-                    <Day key={day} days={days} day={day} />
+                    <Day
+                        key={day}
+                        days={days}
+                        day={day}
+                        habit={habit}
+                        setHabit={setHabit}
+                    />
                 )
             })}
         </div>

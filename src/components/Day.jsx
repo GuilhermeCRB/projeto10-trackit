@@ -1,12 +1,24 @@
 import { useState } from "react";
 import styledComponents from "styled-components";
 
-export default function Day({ days, day }) {
+export default function Day({ days, day, habit, setHabit }) {
     const [selected, setSelected] = useState(false);
-    console.log(selected)
+    console.log(habit);
+
+    function toggleDay(){
+
+        if(!selected){
+            setHabit({...habit, days: [...habit.days, day]});
+        }else{
+            const newDays = habit.days.filter(selectedDay => selectedDay !== day);
+            setHabit({...habit, days: newDays});
+        }
+
+        setSelected(!selected);
+    }
 
     return (
-        <DayStyle selected={selected} onClick={() => setSelected(!selected)}>
+        <DayStyle selected={selected} onClick={toggleDay}>
             {days.get(day)}
         </DayStyle>
 

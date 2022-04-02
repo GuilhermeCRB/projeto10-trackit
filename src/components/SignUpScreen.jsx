@@ -4,6 +4,8 @@ import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
 import styledComponents from "styled-components";
 
+import logo from "./../assets/imgs/logo.svg"
+
 export default function SignUpScreen() {
 
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up";
@@ -28,8 +30,7 @@ export default function SignUpScreen() {
 
     return (
         <Section>
-            <img src="./../src/assets/imgs/logo.svg" alt="logo" />
-            <h1>TrackIt</h1>
+            <img src={logo} alt="logo" />
             <form onSubmit={signUp} >
                 <input
                     value={data.email}
@@ -63,7 +64,7 @@ export default function SignUpScreen() {
                     disabled={disable}
                     required
                 />
-                <button type="submit" >
+                <button disabled={disable} type="submit" >
                     {disable === false ? "Cadastrar" : <ThreeDots color="white" width={60} />}
                 </button>
             </form>
@@ -79,13 +80,6 @@ const Section = styledComponents.section`
     height: 100vh;
     margin-top: 70px;
     background-color: var(--background-sign);
-
-    h1{
-        font-family: 'Playball';
-        font-size: 68px;
-        margin-bottom: 33px;
-        color: var(--logo);
-    }
 
     form{
         display: flex;
