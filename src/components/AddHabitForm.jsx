@@ -75,7 +75,7 @@ const FormStyle = styledComponents.form`
     width: 340px;
     height: 180px;
     margin-bottom: 29px;
-    background-color: var(--background-addHabit-form);
+    background-color: var(--background-habit);
 
     .week-days{
         display: flex;

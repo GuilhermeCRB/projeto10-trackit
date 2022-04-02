@@ -13,35 +13,40 @@ export default function HabitScreen() {
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
     const { user } = useContext(UserContext);
     const config = {
-        headers: {"Authorization": `Bearer ${user.token}`}
+        headers: { "Authorization": `Bearer ${user.token}` }
     }
     const days = new Map([
         [1, "S"], [2, "T"], [3, "Q"], [4, "Q"], [5, "S"], [6, "S"], [7, "D"]
     ]);
-    
+
+    const [habits, setHabits] = useState(null);
     const [addHabit, setAddHabit] = useState(false);
 
     useEffect(() => {
         const promise = axios.get(URL, config);
-        promise.then(sucesso); promise.catch(warnError);
+        promise.then(saveHabits); promise.catch(warnError);
     }, []);
 
     function warnError(error) {
         alert("Parece que algo de errado não está certo. Por favor, tente novamente mais tarde.");
     }
 
-    function sucesso(response) {
-        console.log(response);
+    function saveHabits(response) {
+        setHabits(response.data);
     }
 
-    return (
+    return (habits &&
         <section>
             <Header />
             <MainStyle>
                 <AddHabitHeader setAddHabit={setAddHabit} />
                 {addHabit && <AddHabitForm setAddHabit={setAddHabit} days={days} />}
                 <ul>
-                    <Habit />
+                    {habits.length === 0 ?
+                        <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
+                        :
+                        habits.map(habit => <Habit key={habit.id} days={days} habit={habit} setHabits={setHabits} />)
+                    }
                 </ul>
             </MainStyle>
             <Menu />
