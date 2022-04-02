@@ -3,7 +3,6 @@ import styledComponents from "styled-components";
 
 export default function Day({ days, day, habit, setHabit }) {
     const [selected, setSelected] = useState(false);
-    console.log(habit);
 
     function toggleDay(){
 

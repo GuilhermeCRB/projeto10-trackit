@@ -1,11 +1,12 @@
 import { useState, useContext } from "react";
 import axios from "axios";
 import UserContext from "../contexts/UserContext";
+import getHabits from "../assets/getHabits";
 import styledComponents from "styled-components";
 
 import Day from "./Day";
 
-export default function AddHabitForm({ setAddHabit, days }) {
+export default function AddHabitForm({ habits, setHabits, setAddHabit, days }) {
 
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
     const {user} = useContext(UserContext);
@@ -30,6 +31,7 @@ export default function AddHabitForm({ setAddHabit, days }) {
 
     function endAddHabit(response) {
         setAddHabit(false);
+        getHabits(URL, config, setHabits);
     }
 
     return (

@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
+import getHabits from "../assets/getHabits";
 import styledComponents from "styled-components";
 
 import Header from "./Header";
@@ -22,30 +23,35 @@ export default function HabitScreen() {
     const [habits, setHabits] = useState(null);
     const [addHabit, setAddHabit] = useState(false);
 
-    useEffect(() => {
-        const promise = axios.get(URL, config);
-        promise.then(saveHabits); promise.catch(warnError);
-    }, []);
-
-    function warnError(error) {
-        alert("Parece que algo de errado não está certo. Por favor, tente novamente mais tarde.");
-    }
-
-    function saveHabits(response) {
-        setHabits(response.data);
-    }
+    useEffect(() => getHabits(URL, config, setHabits), []);
 
     return (habits &&
         <section>
             <Header />
             <MainStyle>
                 <AddHabitHeader setAddHabit={setAddHabit} />
-                {addHabit && <AddHabitForm setAddHabit={setAddHabit} days={days} />}
+                {addHabit &&
+                    <AddHabitForm
+                        habits={habits}
+                        setHabits={setHabits}
+                        setAddHabit={setAddHabit}
+                        days={days}
+                    />
+                }
                 <ul>
                     {habits.length === 0 ?
                         <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
                         :
-                        habits.map(habit => <Habit key={habit.id} days={days} habit={habit} setHabits={setHabits} />)
+                        habits.map(habit =>
+                            <Habit
+                                key={habit.id}
+                                days={days}
+                                habit={habit}
+                                habits={habits}
+                                setHabits={setHabits}
+                                GET_HABITS_URL={URL}
+                            />
+                        )
                     }
                 </ul>
             </MainStyle>
