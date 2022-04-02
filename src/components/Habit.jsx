@@ -15,9 +15,13 @@ export default function Habit({ days, habit, habits, setHabits, GET_HABITS_URL})
     }
 
     function deleteHabit() {
-        const promise = axios.delete(URL, config);
-        promise.then(saveNewHabits); promise.catch(warnError)
+        let confirmation = window.confirm("Tem certeza que deseja deletar esse hábito?");
+        if(confirmation){
+            const promise = axios.delete(URL, config);
+            promise.then(saveNewHabits); promise.catch(warnError);
+        }
     }
+    
 
     function warnError(error) {
         alert("Parece que algo de errado não está certo. Por favor, tente novamente mais tarde.");

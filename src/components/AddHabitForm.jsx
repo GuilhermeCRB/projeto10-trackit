@@ -6,7 +6,7 @@ import styledComponents from "styled-components";
 
 import Day from "./Day";
 
-export default function AddHabitForm({ habits, setHabits, setAddHabit, days }) {
+export default function AddHabitForm({ setHabits, setAddHabit, days }) {
 
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
     const {user} = useContext(UserContext);

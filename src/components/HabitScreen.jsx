@@ -1,6 +1,5 @@
 import { useState, useContext, useEffect } from "react";
 import UserContext from "../contexts/UserContext";
-import axios from "axios";
 import getHabits from "../assets/getHabits";
 import styledComponents from "styled-components";
 
