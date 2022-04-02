@@ -1,19 +1,24 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
+import UserContext from "../contexts/UserContext";
 import styledComponents from "styled-components";
 
 import Day from "./Day";
 
 export default function AddHabitForm({ setAddHabit, days }) {
 
+    const {user} = useContext(UserContext);
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
     const [habit, setHabit] = useState({ name: "", days: [] });
+    const config = {
+        headers: {"Authorization": `Bearer ${user.token}`}
+    }
     const [disable, setDisable] = useState(false);
 
     function saveHabit(e) {
         e.preventDefault();
-        const promise = axios.post(URL, habit);
-        promise.then(sucesso); promise.catch(warnError);
+        const promise = axios.post(URL, habit, config);
+        promise.then(endAddHabit); promise.catch(warnError);
         setDisable(true);
     }
 
@@ -22,8 +27,8 @@ export default function AddHabitForm({ setAddHabit, days }) {
         setDisable(false);
     }
 
-    function sucesso(response) {
-        console.log(response)
+    function endAddHabit(response) {
+        setAddHabit(false);
     }
 
     return (
