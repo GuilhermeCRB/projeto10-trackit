@@ -3,29 +3,38 @@ import trashIcon from "./../assets/imgs/trash.svg";
 
 export default function Habit({ days, habit, setHabits }) {
 
+    console.log(habit);
+
     return (
         <LiStyle>
             <div>
                 <p>{habit.name}</p>
                 <img src={trashIcon} alt="" />
             </div>
-            <WeekDays days={days} />
+            <WeekDays days={days} habit={habit} />
         </LiStyle>
     );
 }
 
-function WeekDays({ days }) {
+function WeekDays({ days, habit }) {
+
     return (
         <div className="week-days">
             {[...days.keys()].map((day) => {
+                // console.log("Dia do Map", day, "///  Dias do hábito", habit.id)
                 return (
-                    <div className="day">
+                    <DayStyle day={day} habitDays={habit.days}>
                         {days.get(day)}
-                    </div>
+                    </DayStyle>
                 );
             })}
         </div>
     );
+}
+
+function showHabitDays(day, habitDays){
+    const match = habitDays.filter(habitDay => habitDay === day);
+    return(match.length !== 0 ? "red" : "var(--addHabit-day)");
 }
 
 const LiStyle = styledComponents.li`
@@ -46,16 +55,16 @@ const LiStyle = styledComponents.li`
         display: flex;
         margin-top: 10px;
     }
+`
 
-    .day{
-        display: flex;
-        align-items:center;
-        justify-content: center;
-        width: 30px;
-        height: 30px;
-        margin-right: 4px;
-        border-radius: 5px;
-        // color: ${({selected}) => selected ? "red" : "var(--addHabit-day)"};
-        border: 1px solid var(--addHabit-day);
-    }
+const DayStyle = styledComponents.div`
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin-right: 4px;
+    border-radius: 5px;
+    color: ${({ day, habitDays }) => showHabitDays(day, habitDays)};
+    border: 1px solid var(--addHabit-day);
 `
