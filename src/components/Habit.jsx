@@ -6,7 +6,7 @@ import styledComponents from "styled-components";
 import trashIcon from "./../assets/imgs/trash.svg";
 import getHabits from "../assets/getHabits";
 
-export default function Habit({ days, habit, habits, setHabits, GET_HABITS_URL}) {
+export default function Habit({ days, habit, setHabits, GET_HABITS_URL}) {
 
     const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}`;
     const { user } = useContext(UserContext);

@@ -46,7 +46,6 @@ export default function HabitScreen() {
                                 key={habit.id}
                                 days={days}
                                 habit={habit}
-                                habits={habits}
                                 setHabits={setHabits}
                                 GET_HABITS_URL={URL}
                             />
