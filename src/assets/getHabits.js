@@ -13,4 +13,5 @@ export default function getHabits(URL, config, setHabits){
     function saveHabits(response) {
         setHabits(response.data);
     }
+
 }

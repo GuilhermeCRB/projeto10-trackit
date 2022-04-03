@@ -8,48 +8,66 @@ import Header from "./Header";
 import Menu from "./Menu";
 import TodayHabit from "./TodayHabit";
 
-export default function TodayScreen() {
+export default function TodayScreen({ weekDays }) {
 
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
-    const {user} = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const config = {
         headers: { "Authorization": `Bearer ${user.token}` }
     }
-    const weekDays = new Map([
-        [1, "Segunda"], [2, "Terça"], [3, "Quarta"], [4, "Quinta"],
-        [5, "Sexta"], [6, "Sábado"], [7, "Domingo"]
-    ]);
+    let weekDay; let dateDay; let dateMonth;
 
     const [todayHabits, setTodayHabits] = useState(null);
-    
+
 
     useEffect(() => {
         const promise = axios.get(URL, config);
-        promise.then(sucesso); promise.catch(warnError);
-    },[]);
+        promise.then(displayTodayHabits); promise.catch(warnError);
+    }, []);
 
     function warnError(error) {
         alert("Parece que algo de errado não está certo. Por favor, tente novamente mais tarde.");
     }
 
-    function sucesso(response) {
+    function displayTodayHabits(response) {
         setTodayHabits(response.data);
     }
 
-    let day = dayjs();
-    console.log(day)
+    function saveDate() {
+        weekDay = weekDays.get(dayjs().$W);
+        dateDay = dayjs().$D;
+        dateMonth = dayjs().$M + 1;
+
+        if (parseInt(dateDay) < 10) {
+            dateDay = "0" + dateDay;
+        }
+
+        if (parseInt(dateMonth) < 10) {
+            dateMonth = "0" + dateMonth;
+        }
+
+    }
+
+    saveDate();
 
     return (todayHabits &&
         <section>
             <Header />
             <MainStyle>
-                <h2>{`${weekDays.get(dayjs().$W)}, ${dayjs().$D}/0${dayjs().$M + 1}`}</h2>
-                <p>Nenhum hábito concluído ainda</p>
+                <div className="today" >
+                    <h2>{`${weekDay}, ${dateDay}/${dateMonth}`}</h2>
+                    <p>Nenhum hábito concluído ainda</p>
+                </div>
                 <ul>
                     {todayHabits.length === 0 ?
                         <p>Você não tem nenhum hábito para hoje. Adicione um hábito para começar a trackear!</p>
                         :
-                        todayHabits.map(habit => <TodayHabit key={habit.id} habit={habit} />)
+                        todayHabits.map(habit =>
+                            <TodayHabit
+                                key={habit.id}
+                                habit={habit}
+                                setTodayHabits={setTodayHabits}
+                            />)
                     }
                 </ul>
             </MainStyle>
@@ -63,21 +81,34 @@ const MainStyle = styledComponents.main`
     flex-direction: column;
     align-items: center;
     height: 100%;
-    margin-top: 70px;
+    margin: 70px 0;
     background-color: var(--background-screen);
+
+    .today{
+        width: 90vw;
+        margin: 28px 0;
+    }
 
     h2{
         font-size: 24px;
         color: var(--h2);
     }
 
-    >p{
+    .today p{
         font-size: 18px;
+        margin-top: 7px;
         color: var(--text2);
     }
 
     ul>p{
         font-size: 18px;
         color: var(--text);
+    }
+
+    ul{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90vw;
     }
 `

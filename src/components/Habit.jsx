@@ -6,7 +6,7 @@ import styledComponents from "styled-components";
 import trashIcon from "./../assets/imgs/trash.svg";
 import getHabits from "../assets/getHabits";
 
-export default function Habit({ days, habit, setHabits, GET_HABITS_URL}) {
+export default function Habit({ weekDays, habit, setHabits, GET_HABITS_URL}) {
 
     const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}`;
     const { user } = useContext(UserContext);
@@ -37,19 +37,19 @@ export default function Habit({ days, habit, setHabits, GET_HABITS_URL}) {
                 <p>{habit.name}</p>
                 <img src={trashIcon} alt="trash icon" onClick={deleteHabit} />
             </div>
-            <WeekDays days={days} habit={habit} />
+            <WeekDays weekDays={weekDays} habit={habit} />
         </LiStyle>
     );
 }
 
-function WeekDays({ days, habit }) {
+function WeekDays({ weekDays, habit }) {
 
     return (
         <div className="week-days">
-            {[...days.keys()].map((day) => {
+            {[...weekDays.keys()].map((day) => {
                 return (
                     <DayStyle key={day} day={day} habitDays={habit.days}>
-                        {days.get(day)}
+                        {weekDays.get(day).slice(0,1)}
                     </DayStyle>
                 );
             })}

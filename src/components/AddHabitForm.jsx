@@ -6,7 +6,7 @@ import styledComponents from "styled-components";
 
 import Day from "./Day";
 
-export default function AddHabitForm({ setHabits, setAddHabit, days }) {
+export default function AddHabitForm({ setHabits, setAddHabit, weekDays }) {
 
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
     const {user} = useContext(UserContext);
@@ -43,7 +43,7 @@ export default function AddHabitForm({ setHabits, setAddHabit, days }) {
                 disabled={disable}
                 required
             />
-            <WeekDays days={days} habit={habit} setHabit={setHabit} />
+            <WeekDays weekDays={weekDays} habit={habit} setHabit={setHabit} />
             <div className="add-form-buttons">
                 <button disabled={disable} onClick={() => setAddHabit(false)}>Cancelar</button>
                 <button disabled={disable} type="submit" >Salvar</button>
@@ -52,14 +52,14 @@ export default function AddHabitForm({ setHabits, setAddHabit, days }) {
     );
 }
 
-function WeekDays({ days, habit, setHabit }) {
+function WeekDays({ weekDays, habit, setHabit }) {
     return (
         <div className="week-days">
-            {[...days.keys()].map((day) => {
+            {[...weekDays.keys()].map((day) => {
                 return (
                     <Day
                         key={day}
-                        days={days}
+                        weekDays={weekDays}
                         day={day}
                         habit={habit}
                         setHabit={setHabit}

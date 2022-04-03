@@ -8,16 +8,13 @@ import AddHabitForm from "./AddHabitForm";
 import Habit from "./Habit";
 import Menu from "./Menu";
 
-export default function HabitScreen() {
+export default function HabitScreen({weekDays}) {
 
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
     const { user } = useContext(UserContext);
     const config = {
         headers: { "Authorization": `Bearer ${user.token}` }
     }
-    const days = new Map([
-        [1, "S"], [2, "T"], [3, "Q"], [4, "Q"], [5, "S"], [6, "S"], [7, "D"]
-    ]);
 
     const [habits, setHabits] = useState(null);
     const [addHabit, setAddHabit] = useState(false);
@@ -34,7 +31,7 @@ export default function HabitScreen() {
                         habits={habits}
                         setHabits={setHabits}
                         setAddHabit={setAddHabit}
-                        days={days}
+                        weekDays={weekDays}
                     />
                 }
                 <ul>
@@ -44,7 +41,7 @@ export default function HabitScreen() {
                         habits.map(habit =>
                             <Habit
                                 key={habit.id}
-                                days={days}
+                                weekDays={weekDays}
                                 habit={habit}
                                 setHabits={setHabits}
                                 GET_HABITS_URL={URL}
@@ -74,7 +71,7 @@ const MainStyle = styledComponents.main`
     flex-direction: column;
     align-items: center;
     height: 100%;
-    margin-top: 70px;
+    margin: 70px 0;
     background-color: var(--background-screen);
 
     .add-habits{

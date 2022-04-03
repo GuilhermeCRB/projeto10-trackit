@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styledComponents from "styled-components";
 
-export default function Day({ days, day, habit, setHabit }) {
+export default function Day({ weekDays, day, habit, setHabit }) {
     const [selected, setSelected] = useState(false);
 
     function toggleDay(){
@@ -18,7 +18,7 @@ export default function Day({ days, day, habit, setHabit }) {
 
     return (
         <DayStyle selected={selected} onClick={toggleDay}>
-            {days.get(day)}
+            {weekDays.get(day).slice(0,1)}
         </DayStyle>
 
     );
