@@ -1,6 +1,7 @@
 import { useEffect, useContext, useState } from "react";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
+import dayjs from "dayjs";
 import styledComponents from "styled-components";
 
 import Header from "./Header";
@@ -14,7 +15,13 @@ export default function TodayScreen() {
     const config = {
         headers: { "Authorization": `Bearer ${user.token}` }
     }
+    const weekDays = new Map([
+        [1, "Segunda"], [2, "Terça"], [3, "Quarta"], [4, "Quinta"],
+        [5, "Sexta"], [6, "Sábado"], [7, "Domingo"]
+    ]);
+
     const [todayHabits, setTodayHabits] = useState(null);
+    
 
     useEffect(() => {
         const promise = axios.get(URL, config);
@@ -29,17 +36,20 @@ export default function TodayScreen() {
         setTodayHabits(response.data);
     }
 
+    let day = dayjs();
+    console.log(day)
+
     return (todayHabits &&
         <section>
             <Header />
             <MainStyle>
-                <h2>h2</h2>
-                <p>alguma coisa %</p>
+                <h2>{`${weekDays.get(dayjs().$W)}, ${dayjs().$D}/0${dayjs().$M + 1}`}</h2>
+                <p>Nenhum hábito concluído ainda</p>
                 <ul>
                     {todayHabits.length === 0 ?
                         <p>Você não tem nenhum hábito para hoje. Adicione um hábito para começar a trackear!</p>
                         :
-                        todayHabits.map(habit => <TodayHabit habit={habit} />)
+                        todayHabits.map(habit => <TodayHabit key={habit.id} habit={habit} />)
                     }
                 </ul>
             </MainStyle>
@@ -55,4 +65,19 @@ const MainStyle = styledComponents.main`
     height: 100%;
     margin-top: 70px;
     background-color: var(--background-screen);
+
+    h2{
+        font-size: 24px;
+        color: var(--h2);
+    }
+
+    >p{
+        font-size: 18px;
+        color: var(--text2);
+    }
+
+    ul>p{
+        font-size: 18px;
+        color: var(--text);
+    }
 `
