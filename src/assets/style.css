@@ -17,6 +17,9 @@
     --footer-main: #52B5FB;
     --background-habit: #FFFFFF;
     --addHabit-day: #DBDBDB;
+    --checkbox-not-done: #EBEBEB;
+    --checkbox-done: #8FC549;
+
 }
 
 *{

@@ -5,6 +5,7 @@ import styledComponents from "styled-components";
 
 import Header from "./Header";
 import Menu from "./Menu";
+import TodayHabit from "./TodayHabit";
 
 export default function TodayScreen() {
 
@@ -38,7 +39,7 @@ export default function TodayScreen() {
                     {todayHabits.length === 0 ?
                         <p>Você não tem nenhum hábito para hoje. Adicione um hábito para começar a trackear!</p>
                         :
-                        todayHabits.map(habit => <p>{habit.name}</p>)
+                        todayHabits.map(habit => <TodayHabit habit={habit} />)
                     }
                 </ul>
             </MainStyle>
