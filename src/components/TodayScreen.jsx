@@ -40,7 +40,6 @@ export default function TodayScreen({ weekDays }) {
     }
 
     saveDate();
-    console.log(dailyProgress);
 
     return (todayHabits &&
         <section>

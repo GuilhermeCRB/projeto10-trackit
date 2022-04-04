@@ -1,7 +1,8 @@
 import { useState, useContext, useEffect } from "react";
-import UserContext from "../contexts/UserContext";
 import getHabits from "../assets/getHabits";
 import styledComponents from "styled-components";
+
+import UserContext from "../contexts/UserContext";
 
 import Header from "./Header";
 import AddHabitForm from "./AddHabitForm";
