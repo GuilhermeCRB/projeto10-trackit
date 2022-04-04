@@ -1,8 +1,10 @@
 import { useEffect, useContext, useState } from "react";
-import UserContext from "../contexts/UserContext";
-import axios from "axios";
 import dayjs from "dayjs";
+import getTodayHabits from "../assets/getTodayHabits";
 import styledComponents from "styled-components";
+
+import UserContext from "../contexts/UserContext";
+import DailyProgress from "../contexts/DailyProgress";
 
 import Header from "./Header";
 import Menu from "./Menu";
@@ -11,6 +13,7 @@ import TodayHabit from "./TodayHabit";
 export default function TodayScreen({ weekDays }) {
 
     const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
+    const { dailyProgress, setDailyProgress } = useContext(DailyProgress);
     const { user } = useContext(UserContext);
     const config = {
         headers: { "Authorization": `Bearer ${user.token}` }
@@ -19,19 +22,7 @@ export default function TodayScreen({ weekDays }) {
 
     const [todayHabits, setTodayHabits] = useState(null);
 
-
-    useEffect(() => {
-        const promise = axios.get(URL, config);
-        promise.then(displayTodayHabits); promise.catch(warnError);
-    }, []);
-
-    function warnError(error) {
-        alert("Parece que algo de errado não está certo. Por favor, tente novamente mais tarde.");
-    }
-
-    function displayTodayHabits(response) {
-        setTodayHabits(response.data);
-    }
+    useEffect(() => getTodayHabits(URL, config, setTodayHabits, setDailyProgress), []);
 
     function saveDate() {
         weekDay = weekDays.get(dayjs().$W);
@@ -49,6 +40,7 @@ export default function TodayScreen({ weekDays }) {
     }
 
     saveDate();
+    console.log(dailyProgress);
 
     return (todayHabits &&
         <section>
@@ -56,7 +48,11 @@ export default function TodayScreen({ weekDays }) {
             <MainStyle>
                 <div className="today" >
                     <h2>{`${weekDay}, ${dateDay}/${dateMonth}`}</h2>
-                    <p>Nenhum hábito concluído ainda</p>
+                    {dailyProgress === 0 ?
+                        <p>Nenhum hábito concluído ainda</p>
+                        :
+                        <p>{`${dailyProgress}% dos hábitos concluídos`}</p>
+                    }
                 </div>
                 <ul>
                     {todayHabits.length === 0 ?
@@ -67,6 +63,8 @@ export default function TodayScreen({ weekDays }) {
                                 key={habit.id}
                                 habit={habit}
                                 setTodayHabits={setTodayHabits}
+                                GET_URL={URL}
+                                setDailyProgress={setDailyProgress}
                             />)
                     }
                 </ul>

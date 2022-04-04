@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
-import UserContext from "./contexts/UserContext"
+import DailyProgress from "./contexts/DailyProgress";
+import UserContext from "./contexts/UserContext";
 
 import SignInScreen from "./components/SignInScreen";
 import SignUpScreen from "./components/SignUpScreen";
@@ -15,8 +16,10 @@ export default function App() {
         [5, "Sexta"], [6, "Sábado"], [0, "Domingo"]
     ]);
     const [user, setUser] = useState();
+    const [dailyProgress, setDailyProgress] = useState();
 
     return (
+        <DailyProgress.Provider value={{dailyProgress, setDailyProgress}}>
         <UserContext.Provider value={{user, setUser}}>
             <BrowserRouter>
                 <Routes>
@@ -28,5 +31,6 @@ export default function App() {
                 </Routes>
             </BrowserRouter>
         </UserContext.Provider>
+        </DailyProgress.Provider>
     );
 }

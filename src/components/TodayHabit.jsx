@@ -1,14 +1,15 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
+import getTodayHabits from "../assets/getTodayHabits";
 import styledComponents from "styled-components";
 
-export default function TodayHabit({ habit, setTodayHabits }) {
+export default function TodayHabit({ habit, setTodayHabits, GET_URL, setDailyProgress }) {
 
     const { id, name, done, currentSequence, highestSequence } = habit;
-    const CHECK_URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/ckeck`;
-    const UNCHECK_URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/unckeck`;
-    let URL;
+    // const CHECK_URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`;
+    // const UNCHECK_URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`;
+    let URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/`;
     const { user } = useContext(UserContext);
     const config = {
         headers: { "Authorization": `Bearer ${user.token}` }
@@ -17,9 +18,9 @@ export default function TodayHabit({ habit, setTodayHabits }) {
     function toggleDone() {
 
         if (!done) {
-            URL = CHECK_URL;
+            URL += "check";
         } else {
-            URL = UNCHECK_URL;
+            URL += "uncheck";
         }
 
         const promise = axios.post(URL, {}, config);
@@ -30,8 +31,7 @@ export default function TodayHabit({ habit, setTodayHabits }) {
         }
 
         function toggleHabit(response) {
-            console.log(response.data);
-            setTodayHabits(response.data);
+            getTodayHabits(GET_URL, config, setTodayHabits, setDailyProgress);
         }
 
     }
