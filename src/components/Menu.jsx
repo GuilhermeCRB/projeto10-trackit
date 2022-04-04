@@ -3,12 +3,25 @@ import { Link } from "react-router-dom";
 import styledComponents from "styled-components";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import getTodayHabits from "../assets/getTodayHabits";
 
+import UserContext from "../contexts/UserContext";
 import DailyProgress from "../contexts/DailyProgress";
 
 export default function Menu() {
 
-    const { dailyProgress } = useContext(DailyProgress);
+    const URL = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
+    const { dailyProgress, setDailyProgress } = useContext(DailyProgress);
+    const { user } = useContext(UserContext);
+    const config = {
+        headers: { "Authorization": `Bearer ${user.token}` }
+    }
+
+    function setTodayHabits(){
+        return null;
+    }
+
+    getTodayHabits(URL, config, setTodayHabits, setDailyProgress);
 
     return (
         <FooterStyle>
