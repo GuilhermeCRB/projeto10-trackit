@@ -7,8 +7,6 @@ import styledComponents from "styled-components";
 export default function TodayHabit({ habit, setTodayHabits, GET_URL, setDailyProgress }) {
 
     const { id, name, done, currentSequence, highestSequence } = habit;
-    // const CHECK_URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`;
-    // const UNCHECK_URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`;
     let URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/`;
     const { user } = useContext(UserContext);
     const config = {
@@ -37,10 +35,10 @@ export default function TodayHabit({ habit, setTodayHabits, GET_URL, setDailyPro
     }
 
     return (
-        <LiStyle done={done} >
+        <LiStyle done={done} currentSequence={currentSequence} highestSequence={highestSequence} >
             <h3>{name}</h3>
-            <p>{`Sequência atual: ${currentSequence} dias`}</p>
-            <p>{`Seu recorde: ${highestSequence} dias`}</p>
+            <p>Sequência atual: <span className="current-sequence">{`${currentSequence} dias`}</span></p>
+            <p>Seu recorde: <span className="record">{`${highestSequence} dias`}</span></p>
             <ion-icon onClick={toggleDone} name="checkbox"></ion-icon>
         </LiStyle>
     );
@@ -63,6 +61,16 @@ const LiStyle = styledComponents.li`
     p{
         font-size: 13px;
         color: var(--text);
+    }
+
+    .current-sequence{
+        color: ${({ done }) => done ? "var(--checkbox-done)" : "var(--text)"};
+    }
+
+    .record{
+        color: ${({ currentSequence, highestSequence }) =>
+        (currentSequence === highestSequence && currentSequence !== 0) ?
+            "var(--checkbox-done)" : "var(--text)"};
     }
 
     ion-icon{
