@@ -21,7 +21,7 @@ const MainStyle = styledComponents.main`
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: calc(100vh - 140px);
+    min-height: calc(100vh - 140px);
     margin: 70px 0;
     background-color: var(--background-screen);
 

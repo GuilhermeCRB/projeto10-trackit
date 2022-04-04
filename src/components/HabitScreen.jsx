@@ -71,8 +71,9 @@ const MainStyle = styledComponents.main`
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%;
+    min-height: calc(100vh - 140px);
     margin: 70px 0;
+    padding-bottom: 40px;
     background-color: var(--background-screen);
 
     .add-habits{

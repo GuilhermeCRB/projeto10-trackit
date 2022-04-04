@@ -6,7 +6,7 @@ import styledComponents from "styled-components";
 import trashIcon from "./../assets/imgs/trash.svg";
 import getHabits from "../assets/getHabits";
 
-export default function Habit({ weekDays, habit, setHabits, GET_HABITS_URL}) {
+export default function Habit({ weekDays, habit, setHabits, GET_HABITS_URL }) {
 
     const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habit.id}`;
     const { user } = useContext(UserContext);
@@ -16,12 +16,12 @@ export default function Habit({ weekDays, habit, setHabits, GET_HABITS_URL}) {
 
     function deleteHabit() {
         let confirmation = window.confirm("Tem certeza que deseja deletar esse hábito?");
-        if(confirmation){
+        if (confirmation) {
             const promise = axios.delete(URL, config);
             promise.then(saveNewHabits); promise.catch(warnError);
         }
     }
-    
+
 
     function warnError(error) {
         alert("Parece que algo de errado não está certo. Por favor, tente novamente mais tarde.");
@@ -49,7 +49,7 @@ function WeekDays({ weekDays, habit }) {
             {[...weekDays.keys()].map((day) => {
                 return (
                     <DayStyle key={day} day={day} habitDays={habit.days}>
-                        {weekDays.get(day).slice(0,1)}
+                        {weekDays.get(day).slice(0, 1)}
                     </DayStyle>
                 );
             })}
@@ -57,27 +57,41 @@ function WeekDays({ weekDays, habit }) {
     );
 }
 
-function showHabitDays(day, habitDays) {
+function showHabitDays(day, habitDays, type) {
     const match = habitDays.filter(habitDay => habitDay === day);
-    return (match.length !== 0 ? "red" : "var(--addHabit-day)");
+    if (type === "color") {
+        return (match.length !== 0 ? "var(--background-habit)" : "var(--addHabit-day)");
+    } else {
+        return (match.length !== 0 ? "var(--addHabit-day)" : "var(--background-habit)");
+    }
 }
 
 const LiStyle = styledComponents.li`
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     width: 340px;
     height: 91px;
     margin-bottom: 10px;
+    padding: 0 15px;
     border-radius: 5px;
     background-color: var(--background-habit);
 
+    p{
+        font-size: 20px;
+        color: var(--text);
+    }
+
     img{
         position: absolute;
-        top: 0;
-        right: 0;
+        top: 10px;
+        right: 10px;
     }
 
     .week-days{
         display: flex;
+        font-size: 20px;
         margin-top: 10px;
     }
 `
@@ -90,6 +104,7 @@ const DayStyle = styledComponents.div`
     height: 30px;
     margin-right: 4px;
     border-radius: 5px;
-    color: ${({ day, habitDays }) => showHabitDays(day, habitDays)};
     border: 1px solid var(--addHabit-day);
+    color: ${({ day, habitDays }) => showHabitDays(day, habitDays, "color")};
+    background-color: ${({ day, habitDays }) => showHabitDays(day, habitDays, "background")}
 `

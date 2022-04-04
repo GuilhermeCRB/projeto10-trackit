@@ -93,6 +93,7 @@ const Section = styledComponents.section`
             margin-bottom: 6px;
             border-radius: 5px;
             border: 1px solid var(--input-border);
+            color: var(--text);
         }
     
         input::placeholder{

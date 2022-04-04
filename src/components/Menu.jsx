@@ -23,9 +23,9 @@ export default function Menu() {
                         background
                         backgroundPadding={6}
                         styles={buildStyles({
-                            backgroundColor: "#3e98c7",
-                            textColor: "#fff",
-                            pathColor: "#fff",
+                            backgroundColor: "var(--footer-main)",
+                            textColor: "var(--footer)",
+                            pathColor: "var(--footer)",
                             trailColor: "transparent"
                         })}
                     />
@@ -57,9 +57,11 @@ const FooterStyle = styledComponents.footer`
     }
 
     .CircularProgressbar-container{
-        position: absolute;
-        top: -30px;
-        right: calc(100vw/2);
+        margin-top: -40px;
         width: 91px;
+    }
+
+    a{
+        text-decoration: none;
     }
 `

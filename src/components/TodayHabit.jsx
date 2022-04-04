@@ -36,20 +36,25 @@ export default function TodayHabit({ habit, setTodayHabits, GET_URL, setDailyPro
 
     return (
         <LiStyle done={done} currentSequence={currentSequence} highestSequence={highestSequence} >
-            <h3>{name}</h3>
-            <p>Sequência atual: <span className="current-sequence">{`${currentSequence} dias`}</span></p>
-            <p>Seu recorde: <span className="record">{`${highestSequence} dias`}</span></p>
+            <div>
+                <h3>{name}</h3>
+                <p>Sequência atual: <span className="current-sequence">{`${currentSequence} dias`}</span></p>
+                <p>Seu recorde: <span className="record">{`${highestSequence} dias`}</span></p>
+            </div>
             <ion-icon onClick={toggleDone} name="checkbox"></ion-icon>
         </LiStyle>
     );
 }
 
 const LiStyle = styledComponents.li`
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 340px;
     height: 94px;
-    padding: 13px 13px 13px 15px;
+    padding: 0 15px;
     margin-bottom: 10px;
+    border-radius: 5px;
     background-color: var(--background-habit);
 
     h3{
@@ -74,9 +79,6 @@ const LiStyle = styledComponents.li`
     }
 
     ion-icon{
-        position: absolute;
-        top: 0px;
-        right: 13px;
         font-size: 84px;
         color: ${({ done }) => done ? "var(--checkbox-done)" : "var(--checkbox-not-done)"};
     }

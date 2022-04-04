@@ -16,7 +16,7 @@ export default function App() {
         [5, "Sexta"], [6, "Sábado"], [0, "Domingo"]
     ]);
     const [user, setUser] = useState();
-    const [dailyProgress, setDailyProgress] = useState();
+    const [dailyProgress, setDailyProgress] = useState(0);
 
     return (
         <DailyProgress.Provider value={{dailyProgress, setDailyProgress}}>

@@ -24,6 +24,14 @@ export default function Day({ weekDays, day, habit, setHabit }) {
     );
 }
 
+function showHabitDays(selected, type) {
+    if (selected) {
+        return (type === "color" ? "var(--background-habit)" : "var(--addHabit-day)");
+    } else {
+        return (type === "color" ? "var(--addHabit-day)" : "var(--background-habit)");
+    }
+}
+
 const DayStyle = styledComponents.div`
     display: flex;
     align-items:center;
@@ -32,6 +40,7 @@ const DayStyle = styledComponents.div`
     height: 30px;
     margin-right: 4px;
     border-radius: 5px;
-    color: ${({selected}) => selected ? "red" : "var(--addHabit-day)"};
+    color: ${({selected}) => showHabitDays(selected, "color")};
+    background-color: ${({selected}) => showHabitDays(selected, "background")};
     border: 1px solid var(--addHabit-day);
 `

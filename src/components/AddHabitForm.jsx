@@ -39,14 +39,15 @@ export default function AddHabitForm({ setHabits, setAddHabit, weekDays }) {
             <input
                 value={habit.name}
                 type="text"
+                placeholder="nome do hábito"
                 onChange={(e) => setHabit({ ...habit, name: e.target.value })}
                 disabled={disable}
                 required
             />
             <WeekDays weekDays={weekDays} habit={habit} setHabit={setHabit} />
             <div className="add-form-buttons">
-                <button disabled={disable} onClick={() => setAddHabit(false)}>Cancelar</button>
-                <button disabled={disable} type="submit" >Salvar</button>
+                <button className="cancel-button" disabled={disable} onClick={() => setAddHabit(false)}>Cancelar</button>
+                <button className="save-button" disabled={disable} type="submit" >Salvar</button>
             </div>
         </FormStyle>
     );
@@ -77,17 +78,52 @@ const FormStyle = styledComponents.form`
     width: 340px;
     height: 180px;
     margin-bottom: 29px;
+    border-radius: 5px;
     background-color: var(--background-habit);
+
+    input{
+        font-size: 20px;
+        width: 303px;
+        height: 45px;
+        margin: 18px 18px 10px 18px;
+        padding: 0 10px;
+        border: 1px solid var(--input-border);
+        border-radius: 5px;
+        color: var(--text);
+    }
+
+    input::placeholder{
+        font-size: 20px;
+        color: var(--placeholder);
+    }
 
     .week-days{
         display: flex;
-        margin-top: 10px;
+        font-size: 20px;
+        margin-left: 18px;
     }
 
     .add-form-buttons{
         position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 176px;
+        bottom: 15px;
+        right: 15px;
+    }
+
+    .cancel-button{
+        font-size: 16px;
+        margin-right: 20px;
+        border: none;
+        color: var(--background-icon);
+        background-color: var(--background-habit);
+    }
+
+    .save-button{
+        width: 84px;
+        height: 35px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        color: var(--background-habit);
+        background-color: var(--background-icon);
     }
 `

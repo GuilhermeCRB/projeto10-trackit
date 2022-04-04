@@ -39,18 +39,18 @@ export default function TodayScreen({ weekDays }) {
 
     }
 
-    saveDate();
+    saveDate(); console.log(dailyProgress.toFixed())
 
     return (todayHabits &&
         <section>
             <Header />
-            <MainStyle>
+            <MainStyle dailyProgress={dailyProgress}>
                 <div className="today" >
                     <h2>{`${weekDay}, ${dateDay}/${dateMonth}`}</h2>
                     {dailyProgress === 0 ?
                         <p>Nenhum hábito concluído ainda</p>
                         :
-                        <p>{`${dailyProgress}% dos hábitos concluídos`}</p>
+                        <p>{`${dailyProgress.toFixed()}% dos hábitos concluídos`}</p>
                     }
                 </div>
                 <ul>
@@ -77,8 +77,9 @@ const MainStyle = styledComponents.main`
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%;
+    min-height: calc(100vh - 140px);
     margin: 70px 0;
+    padding-bottom: 40px;
     background-color: var(--background-screen);
 
     .today{
@@ -94,7 +95,7 @@ const MainStyle = styledComponents.main`
     .today p{
         font-size: 18px;
         margin-top: 7px;
-        color: var(--text2);
+        color: ${({dailyProgress}) => dailyProgress === 0 ? "var(--text2)" : "var(--checkbox-done)"};
     }
 
     ul>p{
